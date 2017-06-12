@@ -31,17 +31,17 @@ object MyScalaz extends App {
   }
 
   trait Users {
-    def getUser(id: Int) = Reader((userRepository: UserRepository) => userRepository.get(id))
+    def getUser(id: Int): Reader[UserRepository, User] = Reader((userRepository: UserRepository) => userRepository.get(id))
 
-    def findUser(username: String) = Reader((userRepository: UserRepository) => userRepository.find(username))
+    def findUser(username: String): Reader[UserRepository, User] = Reader((userRepository: UserRepository) => userRepository.find(username))
   }
 
   object UserInfo extends Users {
-    def userEmail(id: Int) = {
+    def userEmail(id: Int): String = {
       getUser(id) map (_.email)
     }
 
-    def userInfo(username: String) =
+    def userInfo(username: String): Reader[UserRepository, Map[String, String]] =
       for {
         user <- findUser(username)
         boss <- getUser(user.supervisorId)
