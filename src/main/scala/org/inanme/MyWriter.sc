@@ -1,3 +1,5 @@
+//https://functionaltechramblings.wordpress.com/2016/02/29/monads-and-scalaz-what-when-why-and-how-part-2-the-writer-monad/
+
 import scalaz._
 import Scalaz._
 
