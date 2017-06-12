@@ -2,12 +2,12 @@ package org.inanme
 
 import java.util.UUID
 
-import scala.concurrent.{Await, Future}
-import scala.concurrent.duration.Duration
-import scala.util.{Failure, Success}
-import scalaz._
-import Scalaz._
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.duration.Duration
+import scala.concurrent.{Await, Future}
+import scala.util.{Failure, Success}
+import scalaz.Scalaz._
+import scalaz._
 
 object MyScalaz extends App {
 
@@ -31,13 +31,13 @@ object MyScalaz extends App {
   }
 
   trait Users {
-    def getUser(id: Int): Reader[UserRepository, User] = Reader((userRepository: UserRepository) => userRepository.get(id))
+    def getUser(id: Int): Reader[UserRepository, User] = Reader(_.get(id))
 
-    def findUser(username: String): Reader[UserRepository, User] = Reader((userRepository: UserRepository) => userRepository.find(username))
+    def findUser(username: String): Reader[UserRepository, User] = Reader(_.find(username))
   }
 
-  object UserInfo extends Users {
-    def userEmail(id: Int): String = {
+  object Users extends Users {
+    def userEmail(id: Int): Reader[UserRepository, String] = {
       getUser(id) map (_.email)
     }
 
@@ -52,13 +52,17 @@ object MyScalaz extends App {
       )
   }
 
-  println(UserInfo.userInfo("mert")(UserRepository))
+  println(Users.userInfo("mert")(UserRepository))
 
-  def myName(step: String): Reader[String, String] = Reader {step + ", I am " + _}
+  def myName(step: String): Reader[String, String] = Reader {
+    step + ", I am " + _
+  }
 
   def localExample: Reader[String, (String, String, String)] = for {
     a <- myName("First")
-    b <- myName("Second") >=> Reader { _ + "dy"}
+    b <- myName("Second") >=> Reader {
+      _ + "dy"
+    }
     c <- myName("Third")
   } yield (a, b, c)
 
