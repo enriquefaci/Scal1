@@ -2,30 +2,41 @@
 // updated version for scalaz 7.2.x where Free automatically applies the
 // Coyoneda transform
 
-import scalaz.{Free, ~>, Id}
+/**
+  * NaturalTransformation a function that can transform one type
+  * constructor into another one. A NaturalTransformation
+  * from F to G is often written as F[_] ~> G[_]
+  */
+
 import scalaz.std.list._
 import scalaz.syntax.traverse._
+import scalaz.{Free, Id, ~>}
 
 type UserId = Int
 type UserName = String
 type UserPhoto = String
 
 final case class Tweet(userId: UserId, msg: String)
+
 final case class User(id: UserId, name: UserName, photo: UserPhoto)
 
-// Services represent web services we can call to fetch data
 sealed trait Service[A]
+
 final case class GetTweets(userId: UserId) extends Service[List[Tweet]]
+
 final case class GetUserName(userId: UserId) extends Service[UserName]
+
 final case class GetUserPhoto(userId: UserId) extends Service[UserPhoto]
 
 // A request represents a request for data
 final case class Request[A](service: Service[A])
 
+//Service to Request
 def fetch[A](service: Service[A]): Free[Request, A] =
-  Free.liftF[Request, A](Request(service) : Request[A])
+  Free.liftF[Request, A](Request(service): Request[A])
 
 object ToyInterpreter extends (Request ~> Id.Id) {
+
   import Id._
 
   def apply[A](in: Request[A]): Id[A] = in match {
@@ -60,7 +71,7 @@ object Example {
 
   def getUser(id: UserId): Free[Request, User] =
     for {
-      name  <- fetch(GetUserName(id))
+      name <- fetch(GetUserName(id))
       photo <- fetch(GetUserPhoto(id))
     } yield User(id, name, photo)
 
