@@ -28,4 +28,10 @@ val importCats =
     |import cats.instances.all._;
     |import cats.syntax.functor._;""".stripMargin
 
+scalacOptions ++= Seq(
+  // See other posts in the series for other helpful options
+  "-feature",
+  "-language:higherKinds"
+)
+
 initialCommands in console := importScalaz
