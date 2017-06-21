@@ -22,6 +22,7 @@ object Sun extends App {
         case Array() => runningResult
       }
     }
+
     _isSorted(as, true)
   }
 
