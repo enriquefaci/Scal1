@@ -5,7 +5,7 @@ import org.scalatest.AsyncFlatSpec
 import scala.concurrent._
 import scalaz.Scalaz._
 
-class MyAsync extends AsyncFlatSpec {
+class MyAsyncSpec extends AsyncFlatSpec {
 
   behavior of "Async adder"
 

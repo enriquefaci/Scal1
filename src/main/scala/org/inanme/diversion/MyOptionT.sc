@@ -1,7 +1,9 @@
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
-import scalaz.Scalaz._
+import scala.concurrent._
 import scalaz._
+import Scalaz._
+
+implicit val currThreadExecutor =
+  ExecutionContext.fromExecutor((command: Runnable) => command.run())
 
 val f1 = Future[Option[Int]] {1.some}
 //val f2 = Future[Option[Int]] {2.some}
