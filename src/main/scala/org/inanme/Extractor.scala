@@ -5,9 +5,7 @@ trait User {
 }
 
 class FreeUser(override val name: String) extends User
-
 class PremiumUser(override val name: String) extends User
-
 class IntUser(override val name: String) extends User
 
 object FreeUser {
@@ -21,7 +19,6 @@ object PremiumUser {
 object IntUser {
   def unapply(user: IntUser): Option[Int] = Some(1)
 }
-
 
 object Extractor extends App {
   val user: User = new IntUser("Daniel")

@@ -27,9 +27,7 @@ object MyPromise extends App {
   val p = Promise[Int]()
   val f = p.future
   val producer = Future {
-    p complete Try {
-      startDoingSomething("Producer")
-    }
+    p complete Try(startDoingSomething("Producer"))
     println("Done producer")
   }
 

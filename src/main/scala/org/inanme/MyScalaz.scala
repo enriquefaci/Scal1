@@ -15,22 +15,16 @@ object MyScalaz extends App {
 
   trait UserRepository {
     def get(id: Int): User
-
     def find(username: String): User
   }
-
   object UserRepository extends UserRepository {
     override def get(id: Int): User = User(id, UUID.randomUUID().toString)
-
     override def find(username: String): User = User(1, username)
   }
-
   trait Users {
     def getUser(id: Int): Reader[UserRepository, User] = Reader(_.get(id))
-
     def findUser(username: String): Reader[UserRepository, User] = Reader(_.find(username))
   }
-
   object Users extends Users {
     def userEmail(id: Int): Reader[UserRepository, String] = {
       getUser(id) map (_.email)

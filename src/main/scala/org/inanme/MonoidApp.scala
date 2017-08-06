@@ -4,26 +4,21 @@ object MonoidApp extends App {
 
   trait Monoid[A] {
     def unit: A
-
     def compose(a1: A, a2: A): A
-
   }
 
   implicit object StringMonoid extends Monoid[String] {
     override val unit: String = ""
-
     override def compose(a1: String, a2: String): String = a1 + a2
   }
 
   implicit object IntMonoid extends Monoid[Int] {
     override val unit: Int = 0
-
     override def compose(a1: Int, a2: Int): Int = a1 + a2
   }
 
   implicit object ListMonoid extends Monoid[List[Int]] {
     override val unit: List[Int] = List()
-
     override def compose(a1: List[Int], a2: List[Int]): List[Int] = a1 ++ a2
   }
 
@@ -35,7 +30,6 @@ object MonoidApp extends App {
 
   def sum2[A: Monoid](list: List[A]) =
     list.foldLeft(implicitly[Monoid[A]].unit)(implicitly[Monoid[A]].compose)
-
 
   val stringList: List[String] = Range(0, 10).map("str" + _).toList
   val intList: List[Int] = Range(0, 10).toList
@@ -61,6 +55,5 @@ object MonoidApp extends App {
   }
 
   println(sum(stringList))
-
 
 }
