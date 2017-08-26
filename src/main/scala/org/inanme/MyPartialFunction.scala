@@ -1,6 +1,6 @@
 package org.inanme
 
-object F2x extends App {
+object MyPartialFunction extends App {
 
   def createErrorMessage: Int ⇒ String = {
     case 1 => "network"

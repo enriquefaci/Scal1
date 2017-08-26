@@ -1,11 +1,5 @@
-package org.inanme
+package org.inanme.mig
 
-package object mig {
-  val minimumAge = 18
-  def verifyAge(age: Int): Boolean = age > minimumAge
-}
-package mig {
-  object BarTender extends App {
-    println(verifyAge(23))
-  }
+object PackageObject extends App {
+  println(validate(23))
 }

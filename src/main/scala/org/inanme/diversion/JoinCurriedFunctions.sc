@@ -1,9 +1,6 @@
 trait Cat
-
 trait Bird
-
 trait Catch
-
 trait FullTummy
 
 val catch1: Cat => Bird => Cat with Bird = _ => _ => new Cat with Bird
