@@ -8,7 +8,8 @@ crossScalaVersions := Seq("2.11.9", "2.12.3")
 import versions._
 
 libraryDependencies ++= Seq(
-  "org.scalatest" %% "scalatest" % "3.0.1" % "test",
+  "org.scalatest" %% "scalatest" % scalaTestVersion % "test",
+  "com.beachape" %% "enumeratum" % enumeratumVersion,
 
   "com.typesafe.akka" %% "akka-http" % akkaHttpVersion,
   "com.typesafe.akka" %% "akka-stream" % akkaVersion,
@@ -31,8 +32,9 @@ libraryDependencies ++= Seq(
 
   "org.json4s" %% "json4s-jackson" % json4sVersion,
   "org.json4s" %% "json4s-scalaz" % json4sVersion,
+  "de.heikoseeberger" %% "akka-http-json4s" % "1.17.0",
 
-  "com.github.julien-truffaut" %% "monocle-core" % monocleVersion,
+"com.github.julien-truffaut" %% "monocle-core" % monocleVersion,
   "com.github.julien-truffaut" %% "monocle-macro" % monocleVersion,
   "com.github.julien-truffaut" %% "monocle-law" % monocleVersion % "test",
 

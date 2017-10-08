@@ -2,10 +2,8 @@ package org.inanme
 
 import akka.actor.ActorSystem
 import akka.http.scaladsl.Http
-import akka.http.scaladsl.model.HttpHeader
-import akka.http.scaladsl.model.headers.RawHeader
 import akka.http.scaladsl.server.Directives._
-import akka.http.scaladsl.server.Route
+import akka.http.scaladsl.server._
 import akka.stream.ActorMaterializer
 import akka.stream.scaladsl._
 
@@ -18,19 +16,17 @@ trait H8349347348923 {
   implicit val materializer: ActorMaterializer = ActorMaterializer()
   implicit val executionContext: ExecutionContextExecutor = system.dispatcher
 }
-
 object S842048023 extends App with H8349347348923 {
-
   val route =
     path("metrics") {
       post {
-        complete("ok")
+        headerValueByName("name") { headerValue ⇒
+          complete(s"$headerValue $headerValue")
+        }
       }
     }
-
   Http(system).bindAndHandle(route, "localhost", 8080)
 }
-
 object P8409238420 extends App with H8349347348923 {
   val proxy = Route { context =>
     val request = context.request
@@ -43,13 +39,10 @@ object P8409238420 extends App with H8349347348923 {
       .flatMap(context.complete(_))
     handler
   }
-
   val binding = Http(system).bindAndHandle(handler = proxy, interface = "localhost", port = 8081)
 
 }
-
 object SX748321323 extends App with H8349347348923 {
-
   val proxy = Route { context =>
     val request = context.request
     println("Opening connection to " + request.uri.authority.host.address)
@@ -69,7 +62,6 @@ object SX748321323 extends App with H8349347348923 {
         //}
       }
     } ~ proxy
-
   Http(system).bindAndHandle(route, "localhost", 8081)
 
 }
