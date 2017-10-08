@@ -1,11 +1,14 @@
 package org.inanme.mig
 
+import scala.util.Random
+
 object Focomo2 extends App {
 
   class Order
 
   trait MaybeOrder {
     def map(f: Order => Order): MaybeOrder
+
     def flatMap(f: Order => MaybeOrder): MaybeOrder
   }
 
@@ -13,6 +16,7 @@ object Focomo2 extends App {
     def map(f: Order => Order): MaybeOrder = {
       GoodOrder(f(order))
     }
+
     def flatMap(f: Order => MaybeOrder): MaybeOrder = {
       f(order)
     }
@@ -23,18 +27,19 @@ object Focomo2 extends App {
       println("bad map")
       BadOrder(reason)
     }
+
     def flatMap(process: Order => MaybeOrder) = {
       println("bad flatMap")
       BadOrder(reason)
     }
+
     def getReason = reason
   }
 
   val goodOrder = GoodOrder(new Order)
   val badOrder = BadOrder("none")
 
-  val x = new java.util.Random(System.currentTimeMillis)
-  def getOrder = if (x.nextBoolean) goodOrder else badOrder
+  def getOrder = if (Random.nextBoolean) goodOrder else badOrder
 
   def creditCheck(order: Order): MaybeOrder = {
     println("creditCheck")
@@ -70,7 +75,7 @@ object Focomo2 extends App {
 
   order match {
     case GoodOrder(order) => println(order)
-    case b: BadOrder      => println(b.getReason)
+    case b: BadOrder => println(b.getReason)
   }
 
 }
