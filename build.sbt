@@ -3,11 +3,12 @@ version := "2.0.0"
 scalaVersion := "2.12.3"
 cancelable in Global := true
 
-crossScalaVersions := Seq("2.11.9", "2.12.3")
+crossScalaVersions := Seq("2.11.9", "2.12.4")
 
 import versions._
 
 libraryDependencies ++= Seq(
+  "org.scalacheck" %% "scalacheck" % scalaCheckVersion % "test",
   "org.scalatest" %% "scalatest" % scalaTestVersion % "test",
   "com.beachape" %% "enumeratum" % enumeratumVersion,
 
@@ -15,9 +16,8 @@ libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-stream" % akkaVersion,
   "com.typesafe.akka" %% "akka-actor" % akkaVersion,
 
-  //"org.typelevel" %% "cats-core" % "0.9.0",
-  "org.typelevel" %% "cats-core" % "1.0.0-MF",
-  "org.typelevel" %% "cats-laws" % "1.0.0-MF",
+  "org.typelevel" %% "cats-core" % catsVersion,
+  "org.typelevel" %% "cats-laws" % catsVersion,
   "org.typelevel" %% "cats-effect" % "0.4",
   "co.fs2" %% "fs2-core" % "0.10.0-M6",
   "co.fs2" %% "fs2-io" % "0.10.0-M6",
@@ -34,7 +34,7 @@ libraryDependencies ++= Seq(
   "org.json4s" %% "json4s-scalaz" % json4sVersion,
   "de.heikoseeberger" %% "akka-http-json4s" % "1.17.0",
 
-"com.github.julien-truffaut" %% "monocle-core" % monocleVersion,
+  "com.github.julien-truffaut" %% "monocle-core" % monocleVersion,
   "com.github.julien-truffaut" %% "monocle-macro" % monocleVersion,
   "com.github.julien-truffaut" %% "monocle-law" % monocleVersion % "test",
 
@@ -63,11 +63,20 @@ val importCats =
     |import cats.syntax.functor._;""".stripMargin
 
 scalacOptions ++= Seq(
-  // See other posts in the series for other helpful options
-  "-feature", "-deprecation", "-explaintypes", "-unchecked", "-encoding", "utf8",
-  //"-Xcheckinit",
-  "-language:higherKinds",
-  "-Ypartial-unification"
+  //A -X option suggests permanence, while a -Y could disappear at any time
+  "-encoding", "UTF-8", // source files are in UTF-8
+  "-explaintypes", // Explain type errors in more detail.
+  "-deprecation", // warn about use of deprecated APIs
+  "-unchecked", // warn about unchecked type parameters
+  "-feature", // warn about misused language features
+  "-language:postfixOps", // allow higher kinded types without `import scala.language.postfixOps`
+  "-language:higherKinds", // allow higher kinded types without `import scala.language.higherKinds`
+  "-language:implicitConversions", // Allow definition of implicit functions called views
+  "-language:existentials", // Existential types (besides wildcard types) can be written and inferred
+  "-language:reflectiveCalls",
+  "-Xlint", // enable handy linter warnings
+  //"-Xfatal-warnings", // turn compiler warnings into errors
+  "-Ypartial-unification" // allow the compiler to unify type constructors of different arities
 )
 
 initialCommands in console := importScalaz

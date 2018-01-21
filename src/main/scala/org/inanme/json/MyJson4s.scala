@@ -8,7 +8,9 @@ import scala.language.implicitConversions
 
 object Part1 extends App {
   val r = render(("name", "mert") ~ ("numbers", Range(1, 10).toList)) \ "numbers" match {
-    case JArray(x) ⇒ x.collect { case x1: JInt ⇒ x1.num + 10 }
+    case JArray(x) ⇒
+      println(x)
+      x.collect { case JInt(n) ⇒ n + 10 }
     case _ ⇒ None
   }
   println(r)
@@ -22,6 +24,9 @@ object Part1 extends App {
   val surname: JField = "surname" -> "inan"
   val option1: JField = "some1" -> some1
   val option2: JField = "none1" -> none1
-  println(compact(name ~ surname ~ option1 ~ option2))
+  //println(compact(name ~ surname ~ option1 ~ option2))
+  println(name ~ surname ~ option2)
+  println(name ~ surname)
+  assert(name ~ surname ~ option2 == name ~ surname)
 
 }
