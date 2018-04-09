@@ -1,7 +1,6 @@
 package org.inanme
 
 import java.util.concurrent.TimeUnit
-
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, Future}
@@ -21,27 +20,22 @@ object MyFuture extends App {
   val op1: Future[Int] = Future {
     blockMe("op1")
   }
-
   val op2: Future[Int] = Future {
     blockMe("op2")
   }
-
   op1.onComplete {
-    case Success(x) => println(x)
+    case Success(x) => println(s"op1 result $x")
     case Failure(_) => println("Failed to fetch op1")
   }
-
   op2.onComplete {
-    case Success(x) => println(x)
+    case Success(x) => println(s"op2 result $x")
     case Failure(_) => println("Failed to fetch op2")
   }
-
   val result: Future[Int] = for {
     v1 <- op1
     v2 <- op2
   } yield v1 + v2
-
   Await.ready(result, Duration.Inf)
-  result map println
+  result.map(x ⇒ println(s"final result $x"))
 
 }
