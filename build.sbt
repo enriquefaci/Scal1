@@ -18,9 +18,16 @@ libraryDependencies ++= Seq(
 
   "org.typelevel" %% "cats-core" % catsVersion,
   "org.typelevel" %% "cats-laws" % catsVersion,
-  "org.typelevel" %% "cats-effect" % "0.4",
-  "co.fs2" %% "fs2-core" % "0.10.0-M6",
-  "co.fs2" %% "fs2-io" % "0.10.0-M6",
+  "org.typelevel" %% "cats-free" % catsVersion,
+  "org.typelevel" %% "cats-effect" % "0.10.1",
+
+  "io.monix" %% "monix" % "2.3.3",
+  "io.monix" %% "monix-cats" % "2.3.3",
+
+  "co.fs2" %% "fs2-core" % "0.10.4",
+  "co.fs2" %% "fs2-io" % "0.10.4",
+
+  "com.storm-enroute" %% "scalameter" % "0.9",
 
   "com.chuusai" %% "shapeless" % "2.3.2",
   "org.zalando" %% "grafter" % "2.1.1",
