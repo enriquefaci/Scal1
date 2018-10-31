@@ -1,11 +1,11 @@
 name := "Scal1"
 version := "2.0.0"
-scalaVersion := "2.12.3"
+scalaVersion := "2.12.7"
 cancelable in Global := true
 
-crossScalaVersions := Seq("2.11.9", "2.12.4")
-
 import versions._
+
+addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full)
 
 libraryDependencies ++= Seq(
   "org.scalacheck" %% "scalacheck" % scalaCheckVersion % "test",
@@ -51,8 +51,14 @@ libraryDependencies ++= Seq(
 
   "org.http4s" %% "http4s-dsl" % http4sVersion,
   "org.http4s" %% "http4s-blaze-server" % http4sVersion,
-  "org.http4s" %% "http4s-blaze-client" % http4sVersion
+  "org.http4s" %% "http4s-blaze-client" % http4sVersion,
+  "org.http4s" %% "http4s-circe" % http4sVersion,
 
+  "io.circe" %% "circe-core" % circeVersion,
+  "io.circe" %% "circe-generic" % circeVersion,
+  "io.circe" %% "circe-parser" % circeVersion,
+
+  "com.github.mpilquist" %% "simulacrum" % "0.14.0",
 )
 
 val importScalaz =
@@ -69,7 +75,7 @@ val importCats =
     |import cats.instances.all._;
     |import cats.syntax.functor._;""".stripMargin
 
-scalacOptions ++= Seq(
+scalacOptions := Seq(
   //A -X option suggests permanence, while a -Y could disappear at any time
   "-encoding", "UTF-8", // source files are in UTF-8
   "-explaintypes", // Explain type errors in more detail.
@@ -83,7 +89,8 @@ scalacOptions ++= Seq(
   "-language:reflectiveCalls",
   "-Xlint", // enable handy linter warnings
   //"-Xfatal-warnings", // turn compiler warnings into errors
-  "-Ypartial-unification" // allow the compiler to unify type constructors of different arities
+  "-Ypartial-unification", // allow the compiler to unify type constructors of different arities
+  "-Ywarn-unused-import"
 )
 
 initialCommands in console := importScalaz
